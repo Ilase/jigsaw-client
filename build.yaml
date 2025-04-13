@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:
+      flutter_localizations:
+        options:
+          arb-dir: lib/utils/l10n/arb
+          template-arb-file: app_en.arb
+          output-dir: lib/utils/l10n/
+          output-class: JigsawLocalizations
