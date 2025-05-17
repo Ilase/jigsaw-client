@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jigsaw_client/domain/locale/locale_bloc.dart';
+import 'package:jigsaw_client/features/home/views/project_calendar_view.dart';
+import 'package:jigsaw_client/features/home/views/project_view.dart';
 import 'package:jigsaw_client/utils/l10n/arb/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,11 +17,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late PageController _pageController;
   int _selectedIndex = 0;
   bool _isExpanded = false;
-  final List<Widget> _destinations = [
-    Text('Home'),
-    Text('Calendar'),
-    Text('Email'),
-  ];
+
+  ///List of destinations of board
+  final List<Widget> _destinations = [ProjectView(), ProjectCalendarView()];
 
   @override
   void initState() {
@@ -75,14 +75,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
 
       destinations: [
-        NavigationRailDestination(icon: Icon(Icons.home), label: Text('Home')),
         NavigationRailDestination(
-          icon: Icon(Icons.calendar_today),
-          label: Text('Calendar'),
+          icon: Icon(Icons.document_scanner),
+          label: Text('Projects'),
         ),
         NavigationRailDestination(
-          icon: Icon(Icons.email),
-          label: Text('Email'),
+          icon: Icon(Icons.calendar_today),
+          label: Text('Project calendar'),
         ),
       ],
       selectedIndex: _selectedIndex,

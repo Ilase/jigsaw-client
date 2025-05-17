@@ -1,12 +1,20 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jigsaw_client/core/data_repository.dart';
+import 'package:jigsaw_client/domain/api/auth_repoository.dart';
 import 'package:jigsaw_client/domain/locale/locale_bloc.dart';
 import 'package:jigsaw_client/features/home/home_page.dart';
 import 'package:jigsaw_client/utils/l10n/arb/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final dio = Dio();
+  final authRepo = AuthRepository(dio);
+  await authRepo.init();
+  final dataRepo = DataRepository(dio);
+
   runApp(StartPoint());
 }
 
