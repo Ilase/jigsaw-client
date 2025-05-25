@@ -15,8 +15,6 @@ final authRepositoryProvider = Provider((ref) {
 
 final loginUserProvider = Provider((ref) {
   return LoginUseCase(
-    repository: AuthRepositoryImpl(
-      apiRemoteDataSource: ref.watch(apiRemoteDataSourceProvider),
-    ),
+    repository: AuthRepositoryImpl(ref.watch(apiRemoteDataSourceProvider)),
   );
 });

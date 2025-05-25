@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jigsaw_client/core/router/build_route.dart';
 import 'package:jigsaw_client/ui/pages/main/main_page.dart';
+import 'package:jigsaw_client/ui/providers/check_connection_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -49,7 +50,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ],
                   ),
                   OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: () async {
+                      Uri basePath = Uri(
+                        scheme: "http",
+                        host: ipController.text,
+                        port: int.tryParse(portController.text),
+                        path: "api/v1/",
+                      );
+                      print(basePath);
+                      bool f = await ref
+                          .read(checkConnectionProvider)
+                          .call(basePath);
+                      print(f);
+                    },
                     label: Text('Check connection'),
                   ),
                   Divider(),

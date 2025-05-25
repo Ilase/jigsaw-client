@@ -8,13 +8,11 @@ import 'package:jigsaw_client/domain/repositories/auth_repository.dart';
 class AuthRepositoryImpl implements AuthRepository {
   ApiRemoteDataSource apiRemoteDataSource;
 
-  AuthRepositoryImpl({required this.apiRemoteDataSource});
+  AuthRepositoryImpl(this.apiRemoteDataSource);
 
   @override
   Future<bool> checkConnection(Uri uri) async {
-    final bool isCorrect = await apiRemoteDataSource.checkConnection(uri);
-
-    return isCorrect;
+    return await apiRemoteDataSource.checkConnection(uri);
   }
 
   @override
