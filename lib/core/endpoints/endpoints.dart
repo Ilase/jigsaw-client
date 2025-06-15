@@ -32,7 +32,7 @@ class Endpoints {
 
   /// Slash
   Uri empty({List<String> extraPaths = const [], Map<String, String>? query}) =>
-      _build('/', extraPaths: extraPaths, queryParameters: query);
+      _build('/check', extraPaths: extraPaths, queryParameters: query);
 
   ///
   /// Auth
@@ -51,4 +51,14 @@ class Endpoints {
     List<String> extraPaths = const [],
     Map<String, String>? query,
   }) => _build('users', extraPaths: extraPaths, queryParameters: query);
+
+  ///
+  /// Objects
+  ///
+  Uri projects({
+    List<String> extraPaths = const [],
+    Map<String, String>? query,
+  }) => _build('projects', extraPaths: extraPaths, queryParameters: query);
+  Uri tasks({List<String> extraPaths = const [], Map<String, String>? query}) =>
+      _build('tasks', extraPaths: extraPaths, queryParameters: query);
 }

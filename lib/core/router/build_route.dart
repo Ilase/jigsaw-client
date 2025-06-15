@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-Route createRoute(Widget page) {
+Route createRoute(Widget page, RouteSettings? settings) {
   return PageRouteBuilder(
+    settings: settings,
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
