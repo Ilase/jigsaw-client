@@ -22,7 +22,6 @@ class _ProjectPageState extends ConsumerState<ProjectPage>
   late final Project project;
 
   List<TabData> tabs = [TabData(title: 'List View', content: TaskListView())];
-
   // @override
   // void didChangeDependencies() {
   //   super.didChangeDependencies();
