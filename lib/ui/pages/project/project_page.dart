@@ -382,7 +382,9 @@ class _AddUsersDialogState extends ConsumerState<AddUsersDialog> {
   @override
   void initState() {
     super.initState();
-    ref.read(usersProvider.notifier).fetchData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(usersProvider.notifier).fetchData();
+    });
   }
 
   @override
@@ -433,11 +435,15 @@ class _AddUsersDialogState extends ConsumerState<AddUsersDialog> {
               usersState.isLoading
                   ? null
                   : () async {
-                    // Обновить проект, если надо
                     ref
                         .read(projectDataStateNotifierProvider.notifier)
                         .fetchData(widget.projectId);
-
+                    ref
+                        .read(projectDataStateNotifierProvider.notifier)
+                        .addUsersToProject(
+                          selectedUserNicknames,
+                          widget.projectId,
+                        );
                     Navigator.pop(context);
                   },
           child: Text('Confirm'),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jigsaw_client/domain/entities/objects/project/project.dart';
+import 'package:jigsaw_client/domain/entities/objects/task/task.dart';
 import 'package:jigsaw_client/ui/providers/objects_providers/project_data_notifier.dart';
 
 class TaskListView extends ConsumerStatefulWidget {
@@ -29,7 +30,8 @@ class _TaskListViewState extends ConsumerState<TaskListView> {
                 itemBuilder: (builder, index) {
                   final task = tasksData.data!.tasks[index];
                   return ListTile(
-                    leading: Text(task.id.toString()),
+                    onTap: () => _showTaskDialog(context, task, project.id),
+                    leading: Text("ID: ${task.id}"),
                     title: Text(task.title),
                     subtitle: Text(task.body ?? "No content"),
                   );
@@ -57,5 +59,82 @@ class _TaskListViewState extends ConsumerState<TaskListView> {
             ),
           ],
         );
+  }
+
+  void _showTaskDialog(BuildContext context, Task task, int projectId) {
+    final titleController = TextEditingController(text: task.title);
+    final bodyController = TextEditingController(text: task.body ?? '');
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 16,
+            right: 16,
+            top: 16,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Title',
+                ),
+              ),
+              SizedBox(height: 8),
+              TextField(
+                controller: bodyController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Body',
+                ),
+                maxLines: 4,
+              ),
+              SizedBox(height: 16),
+              Row(
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      ref
+                          .read(projectDataStateNotifierProvider.notifier)
+                          .updateTask(
+                            task.copyWith(
+                              title: titleController.text.trim(),
+                              body: bodyController.text.trim(),
+                            ),
+                            projectId,
+                          );
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.save),
+                    label: Text("Сохранить"),
+                  ),
+                  SizedBox(width: 16),
+                  TextButton.icon(
+                    onPressed: () {
+                      ref
+                          .read(projectDataStateNotifierProvider.notifier)
+                          .deleteTask(task.id, projectId);
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.delete),
+                    label: Text("Удалить"),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

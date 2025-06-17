@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jigsaw_client/core/theme/main_theme.dart';
 import 'package:jigsaw_client/ui/pages/login/login_page.dart';
 
 void main() {
@@ -11,7 +12,12 @@ class Jigsaw extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: LoginPage(), debugShowCheckedModeBanner: false);
+    return MaterialApp(
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      home: LoginPage(),
+      debugShowCheckedModeBanner: false,
+    );
   }
 }
 

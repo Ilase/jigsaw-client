@@ -14,6 +14,38 @@ class UsersNotifier extends StateNotifier<DataState<List<User>>> {
     final data = await apiRemoteDataSource.getAllUsers();
     state = DataState.data(data);
   }
+
+  Future<void> createUser({
+    required String nickname,
+    required String password,
+    required String role,
+    required String fName,
+    required String lName,
+    required String email,
+  }) async {
+    try {
+      await apiRemoteDataSource.createUser({
+        'nickname': nickname,
+        'password': password,
+        'role': role,
+        'fName': fName,
+        'lName': lName,
+        'email': email,
+      });
+      await fetchData();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteUser(String nickname) async {
+    try {
+      await apiRemoteDataSource.deleteUser(nickname);
+      await fetchData();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
 
 final usersProvider =

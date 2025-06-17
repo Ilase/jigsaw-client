@@ -28,6 +28,20 @@ class ProjectDataNotifier extends StateNotifier<DataState<TaskData>> {
 
   Future<void> createTask(String title, String status, int projectId) async {
     apiRemoteDataSource.createTask(title, status, projectId);
+    await fetchData(projectId);
+  }
+
+  Future<void> deleteTask(int taskId, int projectId) async {
+    apiRemoteDataSource.deleteTask(taskId);
+    await fetchData(projectId);
+  }
+
+  Future<void> addUsersToProject(
+    Set<String> selectedUsers,
+    int projectId,
+  ) async {
+    apiRemoteDataSource.addUsersToProject(selectedUsers, projectId);
+    await fetchData(projectId);
   }
 }
 

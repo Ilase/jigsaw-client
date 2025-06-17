@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jigsaw_client/core/endpoints/endpoints.dart';
 import 'package:jigsaw_client/core/router/build_route.dart';
 import 'package:jigsaw_client/domain/usecase/login.dart';
@@ -30,7 +31,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     final checkConnection = ref.watch(checkConnectionProvider);
     return Scaffold(
-      appBar: AppBar(title: Text('Jigsaw')),
+      appBar: AppBar(
+        leading: SvgPicture.asset(
+          'assets/jigsaw_icon_adaptive.svg',
+
+          color: Theme.of(context).colorScheme.primary,
+          width: 48,
+          height: 48,
+        ),
+        title: Text('Jigsaw'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

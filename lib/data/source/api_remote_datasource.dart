@@ -107,6 +107,7 @@ class ApiRemoteDataSource {
           "title": updatedTask.title,
           "status": updatedTask.status,
           "description": updatedTask.title,
+          "body": updatedTask.body,
         },
       );
       Future.delayed(Duration(milliseconds: 200));
@@ -128,5 +129,43 @@ class ApiRemoteDataSource {
       print(e.toString());
       throw Exception('Error occurred while updating project tasks');
     }
+  }
+
+  Future<void> deleteTask(int taskId) async {
+    try {
+      final response = await dio.deleteUri(
+        endpoints.tasks(extraPaths: [taskId.toString()]),
+      );
+      Future.delayed(Duration(milliseconds: 200));
+      print(response.data);
+    } catch (e) {
+      print(e.toString());
+      throw Exception('Error occurred while deleting project tasks');
+    }
+  }
+
+  Future<void> addUsersToProject(
+    Set<String> selectedUsers,
+    int projectId,
+  ) async {
+    try {
+      final response = await dio.postUri(
+        endpoints.projects(extraPaths: [projectId.toString(), "add-users"]),
+        data: {"nicknames": selectedUsers.toList()},
+      );
+      Future.delayed(Duration(milliseconds: 200));
+      print(response.data);
+    } catch (e) {
+      print(e.toString());
+      throw Exception('Error occurred while adding users to project');
+    }
+  }
+
+  Future<void> createUser(Map<String, dynamic> userData) async {
+    await dio.postUri(endpoints.users(), data: userData);
+  }
+
+  Future<void> deleteUser(String nickname) async {
+    await dio.deleteUri(endpoints.users(extraPaths: [nickname]));
   }
 }

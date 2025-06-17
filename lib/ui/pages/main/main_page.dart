@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jigsaw_client/core/router/build_route.dart';
 import 'package:jigsaw_client/ui/pages/debug/debug_panel.dart';
 import 'package:jigsaw_client/ui/pages/main/destinations/project_view.dart';
+import 'package:jigsaw_client/ui/pages/users/users_page.dart';
+import 'package:jigsaw_client/ui/providers/objects_providers/user_provider.dart';
 import 'package:jigsaw_client/ui/providers/session_provider.dart';
 import 'package:jigsaw_client/ui/widgets/profile_button.dart';
 
@@ -30,11 +33,35 @@ class _MainPageState extends ConsumerState<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    final userData = ref.watch(userProvider);
     return Scaffold(
       appBar: AppBar(
-        // leading: Icon(Icons.ac_unit) ,
+        leading: SvgPicture.asset(
+          'assets/jigsaw_icon_adaptive.svg',
+
+          color: Theme.of(context).colorScheme.primary,
+          width: 48,
+          height: 48,
+        ),
         title: Text('Jigsaw'),
         actions: [
+          userData.isLoading
+              ? SizedBox()
+              : userData.error != null
+              ? SizedBox()
+              : userData.data!.nickname != "root"
+              ? SizedBox()
+              : IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    createRoute(
+                      UserManagementPage(),
+                      RouteSettings(name: "/users"),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.add_reaction_outlined),
+              ),
           if (kDebugMode)
             OutlinedButton(
               onPressed: () {
